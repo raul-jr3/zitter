@@ -1,0 +1,34 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{% block title %}{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}">
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				{% block content %}
+				{% endblock %}
+			</div>
+			{% if messages %}
+				<br>
+					{% for message in messages %}
+						<br>
+						<li style="width: 150px; color: green;">{{ message|safe }}<a href="#" class="close">✖</a></li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+			<div class="col-md-4">
+				{% block side %}
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+</body>
+</html>

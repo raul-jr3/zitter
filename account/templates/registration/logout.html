@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+	zitter
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-12">
+			<h3 class="text-center">Zitter</h3><hr>
+			<p>Thanks for spending some quality time with us. You've been successfully logged out.
+			<a href="{% url "accoutn:login" %}">login </a>again?</p>
+		</div>
+	</div>
+{% endblock %}
