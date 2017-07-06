@@ -38,3 +38,9 @@ def edit_zeet(request, zeet_id):
 		form = ZeetPostForm(instance = zeet)
 	return render(request, 'zeets/post.html', {'zeet':zeet, 'form':form})
 
+@login_required
+def delete_zeet(request, zeet_id):
+	zeet = get_object_or_404(Zeet, pk = zeet_id)
+	zeet.delete()
+	messages.info(request, 'Zeet was successfully deleted')
+	return redirect('zeets:home')

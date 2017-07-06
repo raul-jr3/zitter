@@ -26,14 +26,15 @@
 			{% if zeets %}
 				<ul>
 					{% for zeet in zeets %}
-						<li>Posted by {{ zeet.zeeter }}</li>
+						<li>Posted by {{ zeet.zeeter }}</li>		
 						<small>{{ zeet.created }}</small>
 						<a href="{% url "zeets:edit_zeet" zeet.pk %}">(edit zeet)</a>
 						<br>
 						{% if zeet.image %}
 							<img src="{% if zeet.image %}{{ zeet.image.url }}{% endif %}" width="250" height="250">
 						{% endif %}
-						<p>{{ zeet.body|linebreaks }}</p><hr>
+						<p>{{ zeet.body|linebreaks }}</p>
+						<a style="color:red;" href="{% url "zeets:delete" zeet.pk %}">delete?</a> <b> (Warning! It's a one click delete)</b><hr>
 					{% endfor %}
 				</ul>
 			{% else %}
