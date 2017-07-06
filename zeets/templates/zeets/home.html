@@ -15,7 +15,7 @@
 		<div class="col-md-4 offset-4">
 			<br>
 				{% if request.user.is_authenticated %}
-					<p>{{ request.user.username }} <a href="{% url "account:logout_then_login" %}">(logout)</a></p>
+					<p>{{ request.user.username }} <a href="{% url "account:logout_then_login" %}">(logout)</a><b> |</b><a href="{% url "zeets:post" %}"> zeet</a></p>
 				{% else %}
 					<a href="{% url "account:login" %}">login</a>
 				{% endif %}
@@ -34,7 +34,8 @@
 							<img src="{% if zeet.image %}{{ zeet.image.url }}{% endif %}" width="250" height="250">
 						{% endif %}
 						<p>{{ zeet.body|linebreaks }}</p>
-						<a style="color:red;" href="{% url "zeets:delete" zeet.pk %}">delete?</a> <b> (Warning! It's a one click delete)</b><hr>
+						<a style="color: green;" href="{% url "zeets:comment" zeet.pk %}">comment</a>
+						<a style="color: red;" href="{% url "zeets:delete" zeet.pk %}">delete?</a> <b> (Warning! It's a one click delete)</b><hr>
 					{% endfor %}
 				</ul>
 			{% else %}

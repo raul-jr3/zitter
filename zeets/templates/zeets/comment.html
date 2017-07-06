@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+	zitter-home
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-4">
+			<br>
+			<h3 class="text-left">Zitter</h3>
+		</div>
+		<div class="col-md-4 offset-4">
+			<br>
+				{% if request.user.is_authenticated %}
+					<p>{{ request.user.username }} <a href="{% url "account:logout_then_login" %}">(logout)</a></p>
+				{% else %}
+					<a href="{% url "account:login" %}">login</a>
+				{% endif %}
+		</div>
+	</div><hr>
+	<div class="row">
+		<div class="col-md-8">
+			<b>{{ zeet.zeeter }}</b>
+			<small>{{ zeet.created }}</small>
+			<p>{{ zeet.body|linebreaks }}</p>
+			{% if zeet.image %}
+				<img src="{% if zeet.image %}{{ zeet.image.url }}{% endif %}" width="250" height="250">
+			{% endif %}<br>
+			<a href="{% url "zeets:edit_zeet" zeet.pk %}">edit</a>
+			<a style="color:red;" href="{% url "zeets:delete" zeet.pk %}">delete</a><hr>
+			{% with comments.count as total_comments %}
+				<b>{{ total_comments }} comment{{ total_comments|pluralize }}</b>
+			{% endwith %}
+			{% for comment in comments %}
+				<p class="info">
+					Comment {{ forloop.counter }} by {{ comment.user }}
+					{{ comment.created }}
+				</p>
+					{{ comment.body|linebreaks }}
+					<a style="color:red;" href="{% url "zeets:delete_comment" comment.pk %}">delete</a><hr>
+			{% empty %}
+				<p>There are no comments yet.</p>
+			{% endfor %}
+		</div>
+		<div class="col-md-4">
+			{% if new_comment %}
+				<h2>Your comment has been added.</h2>
+			{% else %}
+				<h4>Add a new comment</h4>
+				<form action="." method="post">
+				{% csrf_token %}
+				{{ form|crispy }}
+				<button class="btn btn-primary btn-block">comment</button>
+				</form>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

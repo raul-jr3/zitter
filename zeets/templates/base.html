@@ -21,7 +21,7 @@
 				<br>
 					{% for message in messages %}
 						<br>
-						<li style="width: 150px; height: 100px; background-color: #030303;">{{ message|safe }}<a href="{% url "zeets:home" %}" class="close">✖</a></li>
+						<li>{{ message|safe }}<a href="{% url "zeets:home" %}" class="close">✖</a></li>
 					{% endfor %}
 				</ul>
 			{% endif %}
