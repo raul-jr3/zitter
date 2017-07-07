@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -67,3 +69,15 @@ def delete_comment(request, comment_id):
 	comment.delete()
 	messages.info(request, 'comment was deleted')
 	return redirect('zeets:home')
+
+@login_required
+@require_POST
+def image_like(request, zeet_id):
+	zeet = get_object_or_404(Zeet, pk = zeet_id)
+	user = request.user 
+	if user not in Like.liker:
+		Like.ojbects.create(liker = user, zeet = zeet)
+	else:
+		Like.objects.delete(liker = user, zeet = zeet)
+	return redirect('zeets:home')
+	

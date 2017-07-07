@@ -8,25 +8,11 @@
 
 {% block content %}
 	<div class="row">
-		<div class="col-md-4">
-			<br>
-			<h3 class="text-left">Zitter</h3>
-		</div>
-		<div class="col-md-4 offset-4">
-			<br>
-				{% if request.user.is_authenticated %}
-					<p>{{ request.user.username }} <a href="{% url "account:logout_then_login" %}">(logout)</a><b> |</b><a href="{% url "zeets:post" %}"> zeet</a></p>
-				{% else %}
-					<a href="{% url "account:login" %}">login</a>
-				{% endif %}
-		</div>
-	</div><hr>
-	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-12 offset-12">
+			<br><br>
 			{% if zeets %}
-				<ul>
 					{% for zeet in zeets %}
-						<li>Posted by {{ zeet.zeeter }}</li>		
+						<b>Posted by {{ zeet.zeeter }}</b><br>	
 						<small>{{ zeet.created }}</small>
 						<a href="{% url "zeets:edit_zeet" zeet.pk %}">(edit zeet)</a>
 						<br>
@@ -35,12 +21,13 @@
 						{% endif %}
 						<p>{{ zeet.body|linebreaks }}</p>
 						<a style="color: green;" href="{% url "zeets:comment" zeet.pk %}">comment</a>
-						<a style="color: red;" href="{% url "zeets:delete" zeet.pk %}">delete?</a> <b> (Warning! It's a one click delete)</b><hr>
+						<a style="color: red;" href="{% url "zeets:delete" zeet.pk %}">delete?</a> <b> (Warning! It's a one click delete)</b>
+						<hr>
 					{% endfor %}
-				</ul>
 			{% else %}
 				<p>Oops! No zeets yet. Start Zeeting <a href="{% url "zeets:post" %}">here</a>.</p>
 			{% endif %}
 		</div>
 	</div>
 {% endblock %}
+

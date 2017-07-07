@@ -7,20 +7,7 @@
 {% endblock %}
 
 {% block content %}
-	<div class="row">
-		<div class="col-md-4">
-			<br>
-			<h3 class="text-left">Zitter</h3>
-		</div>
-		<div class="col-md-4 offset-4">
-			<br>
-				{% if request.user.is_authenticated %}
-					<p>{{ request.user.username }} <a href="{% url "account:logout_then_login" %}">(logout)</a></p>
-				{% else %}
-					<a href="{% url "account:login" %}">login</a>
-				{% endif %}
-		</div>
-	</div><hr>
+	<br>
 	<div class="row">
 		<div class="col-md-8">
 			<b>{{ zeet.zeeter }}</b>
@@ -58,4 +45,8 @@
 			{% endif %}
 		</div>
 	</div>
+{% endblock %}
+
+{% block side %}
+	<img src="{% static "img/post.png" %}" width="250" height="200">
 {% endblock %}

@@ -8,20 +8,6 @@
 
 {% block content %}
 	<div class="row">
-		<div class="col-md-4">
-			<br>
-			<h3 class="text-left">Zitter</h3>
-		</div>
-		<div class="col-md-4 offset-4">
-			<br>
-			{% if request.user.is_authenticated %}
-				<p>{{ request.user.username }} <a href="{% url "account:logout_then_login" %}">(logout)</a><p>
-			{% else %}
-				<a href="{% url "account:login" %}">login</a>
-			{% endif %}
-		</div>
-	</div><hr>
-	<div class="row">
 		<div class="col-md-5">
 			<form action="." method="POST" enctype="multipart/form-data">
 				{% csrf_token %}
@@ -31,4 +17,9 @@
 			</form>
 		</div>
 	</div>
+{% endblock %}
+
+{% block side %}
+	<br><br><br><br><br>
+	<img src="{% static "img/bird.png" %}" width="250" height="200">
 {% endblock %}

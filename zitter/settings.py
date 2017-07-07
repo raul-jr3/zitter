@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'zeets',
     'crispy_forms',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,7 @@ AUTHENTICATION_BACKENDS = (
                             'django.contrib.auth.backends.ModelBackend',
                             'account.authentication.EmailAuthBackend',
                             )
+
+ABSOLUTE_URL_OVERRIDES = {
+                            'auth.user':lambda u: reverse_lazy('account:user_detail', args = [u.username])
+                            }

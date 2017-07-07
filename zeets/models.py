@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User 
 from django.conf import settings
 # Create your models here.
 class Zeet(models.Model):
@@ -9,7 +10,6 @@ class Zeet(models.Model):
 	body = models.CharField(max_length = 140, help_text = "140 characters only :P")
 	created = models.DateTimeField(auto_now = True)
 	image = models.ImageField(blank = True, upload_to = '%Y/%m/%d/images/')
-	users_likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = 'images_liked', blank = True)
 
 	class Meta:
 		ordering = ['-created']

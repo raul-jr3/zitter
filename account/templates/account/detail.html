@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+	People
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-4">
+			<br>
+			<h3 class="text-left">Zitter</h3>
+		</div>
+		<div class="col-md-4 offset-4">
+		<br>
+		{% if request.user.is_authenticated %}
+			<p>{{ request.user.username }} <a href="{% url "account:logout_then_login" %}">(logout)</a><b> |</b><a href="{% url "zeets:post" %}"> zeet</a></p>
+		{% else %}
+			<a href="{% url "account:login" %}">login</a>
+		{% endif %}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<h3>{{ user.get_full_name }}</h3><br>
+			{% if user.profile.photo %}
+				<img src="{{ user.profile.photo.url }}" width="250" height="250">
+			{% endif %}<br>
+			{% with total_followers=user.followers.count %}
+				<p>{{ total_followers }} follower{{ total_followers|pluralize }}</p>
+				<a href="{% url "account:user_follow" %}" data-id="{{ user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow">
+					{% if request.user not in user.followers.all %}
+						Follow
+					{% else %}
+						UnFollow
+					{% endif %}
+				</a>
+			{% endwith %}
+		</div>
+	</div>
+{% endblock %}
