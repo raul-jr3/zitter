@@ -12,8 +12,7 @@ urlpatterns = [
 				#url(r'^password-change/done/$', auth_views.PasswordChangeDoneView.as_view(), name = 'password_change_done'),
 				url(r'^dashboard/$', views.dashboard, name = 'dashboard'),
 				url(r'^edit/$', views.edit, name = 'edit'),
+				url(r'^list/$', views.users_list, name = 'users_list'),
 				url(r'^register/$', views.register, name = 'register'),
-				url(r'^users/$', views.user_list, name = 'user_list'),
-				url(r'^users/follow/$', views.user_follow, name = 'user_follow'),
 				url(r'^users/(?P<username>[-\w]+)/$', views.user_detail, name = 'user_detail'),
 				]

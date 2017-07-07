@@ -9,7 +9,8 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 
 
-from .models import Profile, Contact 
+from zeets.models import Zeet 
+from .models import Profile
 from .forms import UserRegisterForm, UserEditForm, ProfileEditForm
 
 @login_required
@@ -46,30 +47,13 @@ def edit(request):
 	return render(request, 'account/edit.html', {'user_form':user_form, 'profile_form':profile_form})
 
 @login_required
-def user_list(request):
-	users = User.objects.filter(is_active = True)
-	return render(request, 'account/list.html', {'users':users})
+def users_list(request):
+	users = User.objects.all().exclude(username = request.user.username)
+	return render(request, 'account/users_list.html', {'users':users})
 
 @login_required
 def user_detail(request, username):
-	user = get_object_or_404(User, username = username, is_active = True)
-	return render(request, 'account/detail.html', {'user':user})
+	user = get_object_or_404(User, username = username, is_active = True)	
+	zeets = Zeet.objects.filter(zeeter = user)
+	return render(request, 'account/detail.html', {'zeets':zeets, 'user':user})
 
-@require_POST
-@login_required
-def user_follow(request):
-	user_id = request.POST.get('id')
-	action = request.POST.get('action')
-	if user_id and action:
-		try:
-			user = User.objects.get(id = user_id)
-			if action == 'follow':
-				Contact.objects.get_or_create(user_from = request.user, user_to = user)
-				return redirect('account:user_detail', user.username)
-			else:
-				Contact.objects.filter(user_from = request.user, user_to = user).delete()
-				return redirect('account:user_detail', user.username)
-			return JsonResponse({'status':'ok'})
-		except User.DoesNotExist:
-			return JsonResponse({'status':'ko'})
-	return JsonResponse({'status':'ko'})

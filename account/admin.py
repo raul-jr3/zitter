@@ -11,3 +11,4 @@ class ProfileAdmin(admin.ModelAdmin):
 	list_filter = ['date_of_birth']
 
 admin.site.register(Profile, ProfileAdmin)
+
