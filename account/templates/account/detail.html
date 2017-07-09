@@ -8,30 +8,33 @@
 {% block content %}
 	<div class="row">
 		<div class="col-md-8">
-			<h3>{{ user.username }}</h3><br>
+			<h3>About:</h3>
+			<br><br>
 			{% if user.profile.photo %}
-				<img src="{{ user.profile.photo.url }}" width="250" height="250">
+				<img src="{{ user.profile.photo.url }}" width="200" height="200" class="img-rounded">
 			{% else %}
 				<img src="{% static "img/no_img.png" %}" class="img-circle">
-			{% endif %}
-			<br><br><br>
-			{% if zeets %}
-				{% for zeet in zeets %}
-					<p><b>Posted by {{ zeet.zeeter }}</b></p>
-					<small>{{ zeet.created }}</small>
-					<br><br>
-					{% if zeet.image %}
-						<img src="{{ zeet.image.url }}" class="img-rounded" width="250" height="250">
-					{% endif %}
-					{{ zeet.body|linebreaks }}<hr>
-				{% endfor %}
-			{% endif %}			
-		</div>
-		<div class="col-md-4">
-		<h3>About:</h3>
-			<br>
+			{% endif %}<br><br>
+			<p><b>Username : {{ user.username }}</b></p>
 			<p><b>Date-of-birth:</b>{{ user.profile.date_of_birth }}</p>
 			<p><b>Bio:</b>{{ user.profile.bio }}</p>
-		</div>
+		</div>			
+	<h3>{{ user.username }}</h3><br>
+	<br>
+		<div class="col-md-4">
+			{% if zeets %}
+				{% for zeet in zeets %}
+					<div class="thumbnail">
+				      	{% if zeet.image %}
+								<img src="{{ zeet.image.url }}" class="img-rounded" width="250" height="250">
+						{% endif %}
+				        <div class="caption">
+				        	<p>{{ zeet.body|linebreaks }}</p>
+						  	<small>{{ zeet.created }}</small>
+				    	</div>
+					</div>
+				{% endfor %}
+			{% endif %}
+		</div><hr>
 	</div>
 {% endblock %}

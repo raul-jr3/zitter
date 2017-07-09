@@ -10,19 +10,34 @@
 	<div class="row">
 		<div class="col-md-8">
 			{% if user.profile.photo %}
-				<img src="{{ user.profile.photo.url }}" class="img-circle img-responsive" width="304" height="236">
+				<img src="{{ user.profile.photo.url }}" class="img-rounded img-responsive" width="304" height="236">
 			{% else %}
 				<img src="{% static "img/no_img.png" %}" class="img-circle img-responsive float-center" alt="Cinque Terre">
 			{% endif %}
-			<br><br><br>
+			<br><br>
 			<p>Username : {{ request.user.username }} <a href="{% url "account:edit" %}">(edit)</a></p>
 			<p>Date-Of-birth : {{ user.profile.date_of_birth }}</p>
-			<p><b>Bio:</b>{{ user.profile.bio }}</p>
-			<p><a href="{% url "zeets:home" %}">See</a> all my zeets?</p>
-			<p><a href="{% url "zeets:post" %}">zeet</a>?</p>
+			<p><b>Bio:</b>{{ user.profile.bio }}</p><hr>
 		</div>
 		<div class="col-md-4">
-				<p>See the users on zitter <a href="{% url "account:users_list" %}">here.</a></p>
+			{% if zeets %}
+				<h4 class="text-center">My zeets:</h4>
+				{% for zeet in zeets %}
+					<div class="thumbnail">
+				      	{% if zeet.image %}
+								<img src="{{ zeet.image.url }}" class="img-rounded" width="250" height="250">
+						{% endif %}
+				        <div class="caption">
+				        	<p>{{ zeet.body|linebreaks }}</p>
+						  	<p><small>{{ zeet.created }}</small></p>
+						  	<a href="{% url "zeets:delete" zeet.pk %}"><button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button></a>
+				    	</div>
+					</div>
+				{% endfor %}
+			{% else %}
+				<h4 class="text-center">No zeets yet.</h4>
+				<p><a href="{% url "zeets:post" %}">zeet</a>now...</p>
+			{% endif %}
+		</div><hr>
 		</div>
-	</div>
 {% endblock %}

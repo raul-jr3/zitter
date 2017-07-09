@@ -15,8 +15,9 @@ from .forms import UserRegisterForm, UserEditForm, ProfileEditForm
 
 @login_required
 def dashboard(request):
+	zeets = Zeet.objects.filter(zeeter = request.user)
 	template = 'account/dashboard.html'
-	return render(request, template)	
+	return render(request, template, {'zeets':zeets})	
 
 def register(request):
 	if request.method == 'POST':
@@ -40,7 +41,7 @@ def edit(request):
 		if user_form.is_valid() and profile_form.is_valid():
 			user_form.save()
 			profile_form.save()
-			messages.success(request, 'Profile updated successfully')
+			return redirect('account:dashboard')
 	else:
 		user_form = UserEditForm(instance = request.user)
 		profile_form = ProfileEditForm(instance = request.user.profile)

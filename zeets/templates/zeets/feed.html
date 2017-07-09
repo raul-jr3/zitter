@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+	zitter-feed
+{% endblock %}
+
+{% block content %}
+<div class="row">
+<div class="col-md-7">
+	{% if zeets %}
+		{% for zeet in zeets %}
+				<h4><a href="{% url "account:user_detail" zeet.zeeter %}">{{ zeet.zeeter.profile.image.url }}{{ zeet.zeeter }}</a></h4>
+				<div class="thumbnail">
+					{% if zeet.image %}
+						<img src="{{ zeet.image.url }}" class="img-rounded" width="250" height="250">
+					{% endif %}
+					<div class="caption">
+					    <p>{{ zeet.body|linebreaks }}</p>
+						<p><small>{{ zeet.created }}</small></p>
+						<a href="{% url "zeets:comment" zeet.pk %}" style="color:green;">comments</a>
+					</div>
+				</div><hr>
+		{% endfor %}
+	{% else %}
+		<p>No zeets yet. Start zeeting <a href="{% url "zeets:post" %}">here</a>.</p>
+	{% endif %}
+</div>
+</div>
+{% endblock %}

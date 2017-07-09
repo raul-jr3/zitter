@@ -23,7 +23,7 @@ def post_zeet(request):
 			new_zeet = form.save(commit = False)
 			new_zeet.zeeter = request.user
 			new_zeet.save()
-			return redirect('zeets:home')
+			return redirect('zeets:feed')
 	else:
 		form = ZeetPostForm()
 	return render(request, 'zeets/post.html', {'form':form})
@@ -71,13 +71,6 @@ def delete_comment(request, comment_id):
 	return redirect('zeets:home')
 
 @login_required
-@require_POST
-def image_like(request, zeet_id):
-	zeet = get_object_or_404(Zeet, pk = zeet_id)
-	user = request.user 
-	if user not in Like.liker:
-		Like.ojbects.create(liker = user, zeet = zeet)
-	else:
-		Like.objects.delete(liker = user, zeet = zeet)
-	return redirect('zeets:home')
-	
+def feed(request):
+	zeets = Zeet.objects.all()
+	return render(request, 'zeets/feed.html', {'zeets':zeets})
