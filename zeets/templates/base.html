@@ -32,8 +32,7 @@
 		      	{% if request.user.is_authenticated %}
 		      		<li><a href="{% url "zeets:post" %}"><span class="glyphicon glyphicon-pencil"></span></a></li>
 		      		<li><a href="{% url "zeets:feed" %}">feed</a></li>
-		      		<li><a href="{% url "account:dashboard" %}"><span class="glyphicon glyphicon-user"></span>
-		      		<li><a href="{% url "zeets:home" %}">My zeets</a></li>
+		      		<li><a href="{% url "account:dashboard" %}"><span class="glyphicon glyphicon-user"></span>({{ user.username }})</a>
 		        	<li><a href="{% url "account:users_list" %}">People</a></li>
 		      		<li><a href="{% url "account:logout_then_login" %}">logout</a></li>
 		      	{% else %}

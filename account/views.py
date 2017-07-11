@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from actions.utils import create_action
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -9,15 +10,20 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 
 
+from actions.models import Action 
 from zeets.models import Zeet 
 from .models import Profile
 from .forms import UserRegisterForm, UserEditForm, ProfileEditForm
 
 @login_required
 def dashboard(request):
+	#display all actions by default
+	actions = Action.objects.exclude(user = request.user)
+	actions = actions[:10]
+	#todo: retrive actions of following users only
 	zeets = Zeet.objects.filter(zeeter = request.user)
 	template = 'account/dashboard.html'
-	return render(request, template, {'zeets':zeets})	
+	return render(request, template, {'zeets':zeets, 'actions':actions})	
 
 def register(request):
 	if request.method == 'POST':
@@ -27,6 +33,7 @@ def register(request):
 			new_user.set_password(form.cleaned_data['password'])
 			new_user.save()
 			profile = Profile.objects.create(user = new_user)
+			create_action(request.user, 'joined zitter')
 			messages.success(request, 'User registered successfully')
 			return render(request, 'account/register_done.html', {'new_user':new_user})
 	else:

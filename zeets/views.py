@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.http import JsonResponse
+from actions.utils import create_action
 from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -23,6 +23,7 @@ def post_zeet(request):
 			new_zeet = form.save(commit = False)
 			new_zeet.zeeter = request.user
 			new_zeet.save()
+			create_action(request.user, 'posted a new zeet named', new_zeet)
 			return redirect('zeets:feed')
 	else:
 		form = ZeetPostForm()
@@ -58,7 +59,7 @@ def comment(request, zeet_id):
 			new_comment.zeet = zeet 
 			new_comment.user = request.user 
 			new_comment.save()
-			messages.success(request, 'comment added successfully')
+			create_action(request.user, 'commented on', zeet)
 	else:
 		form = CommentForm()
 	return render(request, 'zeets/comment.html', {'zeet':zeet, 'comments':comments, 'form':form})
@@ -74,3 +75,16 @@ def delete_comment(request, comment_id):
 def feed(request):
 	zeets = Zeet.objects.all()
 	return render(request, 'zeets/feed.html', {'zeets':zeets})
+
+@login_required
+def add_like(request, zeet_id):
+	zeet = get_object_or_404(Zeet, pk = zeet_id)
+	zeet.likes.add(request.user)
+	create_action(request.user, 'likes', zeet)
+	return redirect('zeets:feed')
+
+@login_required
+def remove_like(request, zeet_id):
+	zeet = get_object_or_404(Zeet, pk = zeet_id)
+	zeet.likes.remove(request.user)
+	return redirect('zeets:feed')

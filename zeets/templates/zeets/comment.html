@@ -14,7 +14,7 @@
 			<small>{{ zeet.created }}</small>
 			<p>{{ zeet.body|linebreaks }}</p>
 			{% if zeet.image %}
-				<img src="{% if zeet.image %}{{ zeet.image.url }}{% endif %}" width="250" height="250">
+				<img src="{% if zeet.image %}{{ zeet.image.url }}{% endif %}" width="250" height="250" class="img-rounded">
 			{% endif %}<br>
 			<a href="{% url "zeets:edit_zeet" zeet.pk %}">edit</a>
 			<a style="color:red;" href="{% url "zeets:delete" zeet.pk %}">delete</a><hr>

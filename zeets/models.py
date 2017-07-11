@@ -10,6 +10,7 @@ class Zeet(models.Model):
 	body = models.CharField(max_length = 140, help_text = "140 characters only :P")
 	created = models.DateTimeField(auto_now = True)
 	image = models.ImageField(blank = True, upload_to = '%Y/%m/%d/images/')
+	likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = 'zeets_like', blank = True, default = 0)
 
 	class Meta:
 		ordering = ['-created']

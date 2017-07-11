@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'zeets',
     'crispy_forms',
     'sorl.thumbnail',
+    'actions',
 ]
 
 MIDDLEWARE = [

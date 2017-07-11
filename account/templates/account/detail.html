@@ -29,6 +29,29 @@
 								<img src="{{ zeet.image.url }}" class="img-rounded" width="250" height="250">
 						{% endif %}
 				        <div class="caption">
+				        	<p><b>{{ zeet.likes.count }} like{{ zeet.likes.count|pluralize }}, 
+						{{ zeet.comments.count }} comment{{ zeet.comments.count|pluralize }}</b></p>
+				        	<p>
+				        		{% if request.user not in zeet.likes %}
+				        			<a href="{% url "zeets:remove_like" zeet.pk %}">
+				        				<button class="btn btn-primary btn-md"><span class="glyphicon glyphicon-thumbs-down"></span></button>
+				        			</a>
+				        		{% else %}
+				        			<a href="{% url "zeets:add_like" zeet.pk %}">		        				
+				        				<button class="btn btn-primary btn-md"><span class="glyphicon glyphicon-thumbs-up"></span></button>
+				        			</a>
+				        		{% endif %}
+				        		{% if request.user not in zeet.likes %}
+				        			<a href="{% url "zeets:add_like" zeet.pk %}">
+				        				<button class="btn btn-primary btn-md"><span class="glyphicon glyphicon-thumbs-up"></span></button>
+				        			</a>
+				        		{% else %}
+				        			<a href="{% url "zeets:remove_like" zeet.pk %}">	        				
+				        				<button class="btn btn-primary btn-md"><span class="glyphicon glyphicon-thumbs-down"></span></button>
+				        			</a>
+				        		{% endif %}
+				        		<a href="{% url "zeets:comment" zeet.pk %}" style="color:green;"><button class="btn btn-success btn-md"><span class="glyphicon glyphicon-comment"></span></button></a>
+				        	</p>
 				        	<p>{{ zeet.body|linebreaks }}</p>
 						  	<small>{{ zeet.created }}</small>
 				    	</div>
@@ -37,4 +60,10 @@
 			{% endif %}
 		</div><hr>
 	</div>
+{% endblock %}
+
+{% block side %}
+{% for action in actions %}
+	{% include "actions/actions_detail.html" %}
+{% endfor %}
 {% endblock %}
